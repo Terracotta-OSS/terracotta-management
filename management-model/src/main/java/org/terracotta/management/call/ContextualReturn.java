@@ -21,10 +21,10 @@ import java.util.NoSuchElementException;
 
 /**
  * This class holds the results of the calls on each context.
- * <p/>
+ * <p>
  * If a call was not possible to make on a context, because the context was not supported or the capability not found,
  * then the method {@link #hasValue()} will return false.
- * <p/>
+ * <p>
  * You an call {@link #getValue()} only if there has been a result, event if it is null.
  *
  * @author Mathieu Carbou
