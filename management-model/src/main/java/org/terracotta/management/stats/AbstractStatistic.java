@@ -15,10 +15,12 @@
  */
 package org.terracotta.management.stats;
 
+import java.io.Serializable;
+
 /**
  * @author Ludovic Orban
  */
-public abstract class AbstractStatistic<V, U> implements Statistic<V, U> {
+public abstract class AbstractStatistic<V, U> implements Statistic<V, U>, Serializable {
 
   private final String name;
   private final V value;
