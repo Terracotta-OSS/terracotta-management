@@ -72,8 +72,9 @@ public class Context {
     return back.hashCode();
   }
 
-  public static Context create() {
-    return new Context();
+  @Override
+  public String toString() {
+    return "Context{" + back + '}';
   }
 
   public static Context create(String key, String val) {

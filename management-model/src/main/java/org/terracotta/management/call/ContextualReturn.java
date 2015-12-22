@@ -21,32 +21,35 @@ import java.util.NoSuchElementException;
 
 /**
  * This class holds the results of the calls on each context.
- * <p/>
+ * <p>
  * If a call was not possible to make on a context, because the context was not supported or the capability not found,
- * then the method {@link #hasValue()} will return false.
- * <p/>
+ * then the method {@link #isEmpty()} ()} will return true.
+ * <p>
  * You an call {@link #getValue()} only if there has been a result, event if it is null.
  *
  * @author Mathieu Carbou
  */
 public final class ContextualReturn<T> {
 
-  private static final Object NO_RESULT = new Object();
-
   private final T value;
   private final Context context;
+  private final boolean empty;
 
-  private ContextualReturn(Context context, T value) {
+  private ContextualReturn(Context context, T value, boolean empty) {
+    if (context == null) {
+      throw new NullPointerException();
+    }
     this.value = value;
     this.context = context;
+    this.empty = empty;
   }
 
-  public boolean hasValue() {
-    return value != NO_RESULT;
+  public boolean isEmpty() {
+    return empty;
   }
 
   public T getValue() throws NoSuchElementException {
-    if (!hasValue()) {
+    if (isEmpty()) {
       throw new NoSuchElementException();
     }
     return value;
@@ -56,13 +59,38 @@ public final class ContextualReturn<T> {
     return context;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContextualReturn<?> that = (ContextualReturn<?>) o;
+    return empty == that.empty && (value != null ? value.equals(that.value) : that.value == null && context.equals(that.context));
+  }
+
+  @Override
+  public int hashCode() {
+    int result = value != null ? value.hashCode() : 0;
+    result = 31 * result + context.hashCode();
+    result = 31 * result + (empty ? 1 : 0);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("ContextualReturn{");
+    sb.append("context=").append(context);
+    sb.append(", value=").append(isEmpty() ? "<EMPTY>" : value);
+    sb.append('}');
+    return sb.toString();
+  }
+
   public static <T> ContextualReturn<T> of(Context context, T result) {
-    return new ContextualReturn<T>(context, result);
+    return new ContextualReturn<T>(context, result, false);
   }
 
   @SuppressWarnings("unchecked")
   public static <T> ContextualReturn<T> empty(Context context) {
-    return new ContextualReturn<T>(Context.empty(), (T) NO_RESULT);
+    return new ContextualReturn<T>(context, null, true);
   }
 
 }
