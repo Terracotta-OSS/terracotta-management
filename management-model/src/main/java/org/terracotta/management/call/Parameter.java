@@ -26,13 +26,39 @@ public final class Parameter {
   private final String className;
 
   public Parameter(Object value) {
-    this.value = value;
-    this.className = value.getClass().getName();
+    this(value, value.getClass().getName());
   }
 
   public Parameter(Object value, String className) {
+    if (className == null) {
+      throw new NullPointerException();
+    }
     this.value = value;
     this.className = className;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Parameter parameter = (Parameter) o;
+    return value != null ? value.equals(parameter.value) : parameter.value == null && className.equals(parameter.className);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = value != null ? value.hashCode() : 0;
+    result = 31 * result + className.hashCode();
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("Parameter{");
+    sb.append("className='").append(className).append('\'');
+    sb.append(", value=").append(value);
+    sb.append('}');
+    return sb.toString();
   }
 
   public Object getValue() {

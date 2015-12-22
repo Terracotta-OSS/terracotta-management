@@ -47,7 +47,7 @@ public abstract class AbstractStatistic<V, U> implements Statistic<V, U> {
 
   @Override
   public String toString() {
-    return "{" + "name='" + getName() + '\'' + ", value=" + getValue() + ", unit=" + getUnit() + '}';
+    return "Statistic{" + "name='" + getName() + '\'' + ", value=" + getValue() + ", unit=" + getUnit() + '}';
   }
 
   @Override
