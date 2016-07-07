@@ -1,3 +1,5 @@
 Hello !
+
 All the content of this repo was moved to https://github.com/Terracotta-OSS/terracotta-platform , in particular the management folder.
+
 See you there ?
